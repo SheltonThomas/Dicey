@@ -7,7 +7,6 @@ public class ColorChangeBehavior : MonoBehaviour
     private List<MeshRenderer> _faces = new List<MeshRenderer>();
     public List<Material> CubeMats = new List<Material>();
     public int matindex = 0;
-    private float timer = 0;
     [SerializeField]
     List<Material> materials;
     // Start is called before the first frame update
