@@ -214,8 +214,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 25
-  rotationSpeed: 25
-  hitboxSize: 1
+  rotationSpeed: 10
+  hitboxSize: 1.5
 --- !u!1 &431455326
 GameObject:
   m_ObjectHideFlags: 0
