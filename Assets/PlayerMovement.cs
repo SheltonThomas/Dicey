@@ -68,7 +68,7 @@ public class PlayerMovement : MonoBehaviour
     }
 
     private bool CheckDirection(Vector3 direction){
-        if (Physics.Raycast( transform.position, direction, out RaycastHit hit, hitboxSize, blockMask)) {
+        if (Physics.Raycast( transform.position, direction, out RaycastHit hit, hitboxSize)) {
             return false;
         }
         else return true;
