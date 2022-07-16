@@ -7,12 +7,10 @@ public class PlayerMovement : MonoBehaviour
     private Quaternion startingRotation;
     public float speed = 25;
     private bool moving = false;
-
     public float rotationSpeed = 25;
     public float hitboxSize = 1.5f;
     private LayerMask blockMask = 0;
     private Vector3 destination;
-
 
     void Start(){
     }
@@ -70,17 +68,9 @@ public class PlayerMovement : MonoBehaviour
     }
 
     private bool CheckDirection(Vector3 direction){
-        if (Physics.Raycast(
-            transform.position,
-            direction,
-            out RaycastHit hit,
-            hitboxSize,
-            blockMask
-        ))
-        {
+        if (Physics.Raycast( transform.position, direction, out RaycastHit hit, hitboxSize, blockMask)) {
             return false;
         }
         else return true;
     }
-
 }
