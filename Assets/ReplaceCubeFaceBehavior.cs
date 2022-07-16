@@ -6,14 +6,17 @@ using UnityEngine.UI;
 public class ReplaceCubeFaceBehavior : MonoBehaviour
 {
     public Transform Cube;
-    private List<MeshRenderer> faces = new List<MeshRenderer>();
+    private List<SpriteRenderer> sprites = new List<SpriteRenderer>();
     private List<Image> buttons = new List<Image>();
     // Start is called before the first frame update
     void Start()
     {
         foreach(Transform face in Cube)
         {
-            faces.Add(face.gameObject.GetComponent<MeshRenderer>());
+            foreach(Transform sprite in face)
+            {
+                sprites.Add(sprite.gameObject.GetComponent<SpriteRenderer>());
+            }
         }
 
         foreach(Transform button in gameObject.transform)
@@ -25,9 +28,14 @@ public class ReplaceCubeFaceBehavior : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        for(int i = 0; i < faces.Count; i++)
+        for(int i = 0; i < sprites.Count; i++)
         {
-            buttons[i].material = faces[i].material;
+            buttons[i].sprite = sprites[i].sprite;
         }
+    }
+
+    public void OnClick()
+    {
+        Debug.Log("Click");
     }
 }
