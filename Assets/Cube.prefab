@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 1468282088508284293}
   - component: {fileID: 4835834753307375995}
   - component: {fileID: 1068191469333910879}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Face3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -97,7 +97,7 @@ MeshCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 4
-  m_Convex: 0
+  m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!114 &1068191469333910879
@@ -112,9 +112,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a0e0c92ee48b4b4bb5866eb30aa7852, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  FaceSprite: {fileID: 0}
+  FaceSprite: {fileID: 3627477433199708001}
   _attackDuration: 0
   isAttacking: 0
+  LevelManager: {fileID: 0}
 --- !u!1 &1423222458292092075
 GameObject:
   m_ObjectHideFlags: 0
@@ -128,7 +129,7 @@ GameObject:
   - component: {fileID: 5444208539691120985}
   - component: {fileID: 2280533788595579667}
   - component: {fileID: 8818129565841085152}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Face5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -212,7 +213,7 @@ MeshCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 4
-  m_Convex: 0
+  m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!114 &8818129565841085152
@@ -227,9 +228,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a0e0c92ee48b4b4bb5866eb30aa7852, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  FaceSprite: {fileID: 0}
+  FaceSprite: {fileID: 3627477433922434708}
   _attackDuration: 0
   isAttacking: 0
+  LevelManager: {fileID: 0}
 --- !u!1 &3538442724406289437
 GameObject:
   m_ObjectHideFlags: 0
@@ -240,6 +242,8 @@ GameObject:
   m_Component:
   - component: {fileID: 3250623626844301280}
   - component: {fileID: 7651421971202041665}
+  - component: {fileID: 7615569269314552259}
+  - component: {fileID: 6087585091262969780}
   m_Layer: 0
   m_Name: Cube
   m_TagString: Untagged
@@ -281,6 +285,34 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 10, y: 10, z: 10}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &7615569269314552259
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3538442724406289437}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8cec19f83f9b45449259c9d82165f70, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 25
+  rotationSpeed: 25
+  hitboxSize: 1.5
+  levelManager: {fileID: 0}
+--- !u!114 &6087585091262969780
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3538442724406289437}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 05ee702d485e28843a5095795a4a9235, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3627477433199708006
 GameObject:
   m_ObjectHideFlags: 0
@@ -798,7 +830,7 @@ GameObject:
   - component: {fileID: 3973241128988422711}
   - component: {fileID: 7452024062256039059}
   - component: {fileID: 7419254075741551858}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Face2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -882,7 +914,7 @@ MeshCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 4
-  m_Convex: 0
+  m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!114 &7419254075741551858
@@ -897,9 +929,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a0e0c92ee48b4b4bb5866eb30aa7852, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  FaceSprite: {fileID: 0}
+  FaceSprite: {fileID: 3627477433337957389}
   _attackDuration: 0
   isAttacking: 0
+  LevelManager: {fileID: 0}
 --- !u!1 &7323345937834219054
 GameObject:
   m_ObjectHideFlags: 0
@@ -913,7 +946,7 @@ GameObject:
   - component: {fileID: 7999483075753429590}
   - component: {fileID: 6548128759452028730}
   - component: {fileID: 3627477434038106652}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Face0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -997,7 +1030,7 @@ MeshCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 4
-  m_Convex: 0
+  m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!114 &3627477434038106652
@@ -1012,9 +1045,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a0e0c92ee48b4b4bb5866eb30aa7852, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  FaceSprite: {fileID: 0}
+  FaceSprite: {fileID: 3627477434351947726}
   _attackDuration: 1
   isAttacking: 0
+  LevelManager: {fileID: 0}
 --- !u!1 &7452967100690879753
 GameObject:
   m_ObjectHideFlags: 0
@@ -1028,7 +1062,7 @@ GameObject:
   - component: {fileID: 1505916145664371056}
   - component: {fileID: 5035722825221091885}
   - component: {fileID: 7233068807573148613}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Face1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1112,7 +1146,7 @@ MeshCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 4
-  m_Convex: 0
+  m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!114 &7233068807573148613
@@ -1127,9 +1161,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a0e0c92ee48b4b4bb5866eb30aa7852, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  FaceSprite: {fileID: 0}
+  FaceSprite: {fileID: 3627477434774676185}
   _attackDuration: 0
   isAttacking: 0
+  LevelManager: {fileID: 0}
 --- !u!1 &8966992433630613434
 GameObject:
   m_ObjectHideFlags: 0
@@ -1143,7 +1178,7 @@ GameObject:
   - component: {fileID: 6783076797520631861}
   - component: {fileID: 1559606930668925787}
   - component: {fileID: 865076468147320104}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Face4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1227,7 +1262,7 @@ MeshCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 4
-  m_Convex: 0
+  m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!114 &865076468147320104
@@ -1242,6 +1277,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a0e0c92ee48b4b4bb5866eb30aa7852, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  FaceSprite: {fileID: 0}
+  FaceSprite: {fileID: 3627477433319266763}
   _attackDuration: 0
   isAttacking: 0
+  LevelManager: {fileID: 0}

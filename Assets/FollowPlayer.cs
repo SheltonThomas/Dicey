@@ -10,6 +10,13 @@ public class FollowPlayer : MonoBehaviour
         moveTowards
     }
 
+    public enum AttackType
+    {
+        Melee = 1,
+        ExtendedMelee = 2,
+        Ranged = 4
+    }
+
     public EnemyBehaviour enemyBehaviour;
     public float hitboxSize = 1.4f;
     public float followDistance = 10;
@@ -18,18 +25,41 @@ public class FollowPlayer : MonoBehaviour
     private bool seesPlayer;
     private bool moving = false;
     private Vector3 destination;
+    [SerializeField]
+    private LevelManager levelManager;
+    public bool finishedTurn = true;
+    public AttackType attackType;
+
     // Start is called before the first frame update
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player"); 
     }
 
-    // Update is called once per frame
+    // update is called once per frame
     void Update()
     {
+        if (levelManager.isPlayerTurn || finishedTurn)
+            return;
         Vector3 directionToPlayer = transform.position - player.transform.position;
+
+        if(directionToPlayer.magnitude <= (int)attackType)
+        {
+            switch (attackType)
+            {
+                case AttackType.Melee:
+
+                    break;
+                case AttackType.ExtendedMelee:
+                    break;
+                case AttackType.Ranged:
+                    break;
+                default:
+                    break;
+            }
+        }
         //float distanceToPlayer = Vector3.Distance(player.transform.position, transform.position);
-        if (Physics.Raycast(transform.position, -directionToPlayer, out RaycastHit hit, followDistance))
+        if (Physics.Raycast(transform.position, -directionToPlayer, out RaycastHit hit, followDistance, 3))
         {
             seesPlayer = hit.collider.gameObject.CompareTag("Player");
         }
@@ -39,7 +69,7 @@ public class FollowPlayer : MonoBehaviour
         }
         if(!moving && seesPlayer){
             moving = true;
-            if(Mathf.Abs(directionToPlayer.x) > Mathf.Abs(directionToPlayer.y))
+            if(Mathf.Abs(directionToPlayer.x) > Mathf.Abs(directionToPlayer.z))
             {
                 if(enemyBehaviour == EnemyBehaviour.moveAway)
                 {
@@ -61,14 +91,14 @@ public class FollowPlayer : MonoBehaviour
             {
                 if(enemyBehaviour == EnemyBehaviour.moveAway)
                 {
-                    Vector3 move = new Vector3(0, directionToPlayer.y/Mathf.Abs(directionToPlayer.y), 0);
+                    Vector3 move = new Vector3(0, 0, directionToPlayer.z / Mathf.Abs(directionToPlayer.z);
                     if (CheckDirection(move))
                     {
                         destination = transform.position + move;
                     }
                 }else if (enemyBehaviour == EnemyBehaviour.moveTowards)
                 {
-                    Vector3 move = new Vector3(0, -directionToPlayer.y/Mathf.Abs(directionToPlayer.y), 0);
+                    Vector3 move = new Vector3(0, 0, -directionToPlayer.z / Mathf.Abs(directionToPlayer.z);
                     if (CheckDirection(move))
                     {
                         destination = transform.position + move;
@@ -93,14 +123,14 @@ public class FollowPlayer : MonoBehaviour
                     }
                     break;
                 case 2:
-                    move = new Vector3(0,-1,0);
+                    move = new Vector3(0,0,-1);
                     if (CheckDirection(move))
                     {
                         destination = move + transform.position;
                     }
                     break;
                 case 3:
-                    move = new Vector3(0,1,0);
+                    move = new Vector3(0,0,1);
                     if (CheckDirection(move))
                     {
                         destination = move + transform.position;
@@ -116,6 +146,8 @@ public class FollowPlayer : MonoBehaviour
             {
                 transform.position = new Vector3(Mathf.Round(transform.position.x), Mathf.Round(transform.position.y), Mathf.Round(transform.position.z));
                 moving = false;
+                finishedTurn = true;
+                levelManager.EnemiesFinishedMoving++;
             }
         }
     }

@@ -11,19 +11,23 @@ public class PlayerMovement : MonoBehaviour
     public float hitboxSize = 1.5f;
     private LayerMask blockMask = 0;
     private Vector3 destination;
+    [SerializeField]
+    private LevelManager levelManager;
+    private PlayerHealth playerhealth;
 
     void Start(){
+        playerhealth = GetComponent<PlayerHealth>();
     }
 
     void Update(){
-        if (!moving)
+        if (!moving && levelManager.isPlayerTurn)
         {
             if(Input.GetAxis("Horizontal") > 0){
                 if(CheckDirection(Vector3.right)){
                     moving = true;
                     destination = transform.position + Vector3.right;
                     StopAllCoroutines();
-                    StartCoroutine(Rotate(new Vector3(0, -90, 0)));
+                    StartCoroutine(Rotate(new Vector3(0, 0, -90), "Right"));
                 }
             }
             else if(Input.GetAxis("Horizontal") < 0){
@@ -31,29 +35,29 @@ public class PlayerMovement : MonoBehaviour
                     moving = true;
                     destination = transform.position + Vector3.left;
                     StopAllCoroutines();
-                    StartCoroutine(Rotate(new Vector3(0, 90, 0)));
+                    StartCoroutine(Rotate(new Vector3(0, 0, 90), "Left"));
                 }
             }
             else if(Input.GetAxis("Vertical") > 0){
                 if(CheckDirection(Vector3.up)){
                     moving = true;
-                    destination = transform.position + Vector3.up;
+                    destination = transform.position + Vector3.forward;
                     StopAllCoroutines();
-                    StartCoroutine(Rotate(new Vector3(90, 0, 0)));
+                    StartCoroutine(Rotate(new Vector3(90, 0, 0), "Forward"));
                 }
             }
             else if(Input.GetAxis("Vertical") < 0){
                 if(CheckDirection(Vector3.down)){
                     moving = true;
-                    destination = transform.position + Vector3.down;
+                    destination = transform.position + Vector3.back;
                     StopAllCoroutines();
-                    StartCoroutine(Rotate(new Vector3(-90, 0, 0)));
+                    StartCoroutine(Rotate(new Vector3(-90, 0, 0), "Back"));
                 }
             }
         }
     }
 
-    IEnumerator Rotate(Vector3 rotationAmount){
+    IEnumerator Rotate(Vector3 rotationAmount, string direction){
         startingRotation = this.transform.rotation;
         Quaternion finalRotation = Quaternion.Euler( rotationAmount.x, rotationAmount.y, rotationAmount.z ) * startingRotation;
         Vector3 finalPosition = destination;
@@ -64,13 +68,21 @@ public class PlayerMovement : MonoBehaviour
             this.transform.position = Vector3.Lerp(this.transform.position, finalPosition, time * speed);
             yield return 0;
         }
-        transform.position = new Vector3(Mathf.Round(transform.position.x), Mathf.Round(transform.position.y), Mathf.Round(transform.position.z));
-        transform.rotation = new Quaternion(Mathf.Round(transform.rotation.w), Mathf.Round(transform.rotation.x), Mathf.Round(transform.rotation.y), Mathf.Round(transform.rotation.z));
+        transform.position = new Vector3(Mathf.Round(transform.position.x),transform.position.y, Mathf.Round(transform.position.z));
+        transform.rotation = new Quaternion(Mathf.Round(transform.rotation.x), Mathf.Round(transform.rotation.y), Mathf.Round(transform.rotation.z), Mathf.Round(transform.rotation.w));
+
+        if (Physics.Raycast(transform.position, Vector3.up, out RaycastHit hit, 1))
+        {
+            FaceInfo face = hit.collider.gameObject.GetComponent<FaceInfo>();
+            face.isAttacking = true;
+            face.direction = direction;
+            face.PlayerHealth = playerhealth;
+        }
         moving = false;
     }
 
     private bool CheckDirection(Vector3 direction){
-        if (Physics.Raycast( transform.position, direction, out RaycastHit hit, hitboxSize)) {
+        if (Physics.Raycast( transform.position, direction, out RaycastHit hit, hitboxSize, 3)) {
             return false;
         }
         else return true;

@@ -11,6 +11,10 @@ public class FaceInfo : MonoBehaviour
     private float _activeTime = 0;
     private List<GameObject> _attackHitboxes = new List<GameObject>();
     public bool isAttacking = false;
+    [SerializeField]
+    private LevelManager LevelManager;
+    public string direction;
+    public PlayerHealth PlayerHealth;
 
     private void Start()
     {
@@ -29,7 +33,11 @@ public class FaceInfo : MonoBehaviour
                 return;
             }
             if (_activeTime == 0)
-                CreateHitBoxes(AttackPatterns.attackPatterns[FaceSprite.sprite.name]);
+                if(FaceSprite.sprite != null)
+                    CreateHitBoxes(AttackPatterns.attackPatterns[FaceSprite.sprite.name]);
+
+                else
+                    LevelManager.isPlayerTurn = false;
 
             _activeTime += Time.deltaTime;
         }
@@ -45,16 +53,16 @@ public class FaceInfo : MonoBehaviour
                 if (pixelColor.a != 0)
                 {
                     GameObject attackPoint = new GameObject();
+                    attackPoint.AddComponent<AttackHitboxBehavior>();
                     attackPoint.AddComponent<BoxCollider>();
                     attackPoint.transform.position = new Vector3(x, 0, y);
-                    Vector3 attackPos = attackPoint.transform.position - new Vector3(4, 0, 4);
+                    Vector3 attackPos = attackPoint.transform.position - new Vector3(3, 0, 3);
                     attackPos = attackPos + transform.parent.transform.position;
                     attackPoint.transform.position = attackPos;
                     _attackHitboxes.Add(attackPoint);
                 }
             }
         }
-        Debug.Log("Created");
     }
 
     private void DestroyHitBoxes()
@@ -62,7 +70,7 @@ public class FaceInfo : MonoBehaviour
         foreach(GameObject attackBox in _attackHitboxes)
         {
             Destroy(attackBox);
+            LevelManager.isPlayerTurn = false;
         }
-        Debug.Log("Destroyed");
     }
 }
