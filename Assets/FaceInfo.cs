@@ -15,7 +15,6 @@ public class FaceInfo : MonoBehaviour
     private void Start()
     {
         //Need to rename attack patterns to match icon names
-        isAttacking = true;
     }
 
     private void Update()
