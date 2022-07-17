@@ -45,9 +45,10 @@ public class FaceInfo : MonoBehaviour
                 if (pixelColor.a != 0)
                 {
                     GameObject attackPoint = new GameObject();
+                    attackPoint.AddComponent<AttackHitboxBehavior>();
                     attackPoint.AddComponent<BoxCollider>();
                     attackPoint.transform.position = new Vector3(x, 0, y);
-                    Vector3 attackPos = attackPoint.transform.position - new Vector3(4, 0, 4);
+                    Vector3 attackPos = attackPoint.transform.position - new Vector3(3, 0, 3);
                     attackPos = attackPos + transform.parent.transform.position;
                     attackPoint.transform.position = attackPos;
                     _attackHitboxes.Add(attackPoint);
