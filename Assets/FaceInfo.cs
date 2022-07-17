@@ -11,6 +11,9 @@ public class FaceInfo : MonoBehaviour
     private float _activeTime = 0;
     private List<GameObject> _attackHitboxes = new List<GameObject>();
     public bool isAttacking = false;
+    [SerializeField]
+    private LevelManager LevelManager;
+    public string direction;
 
     private void Start()
     {
@@ -31,6 +34,8 @@ public class FaceInfo : MonoBehaviour
             if (_activeTime == 0)
                 if(FaceSprite.sprite != null)
                     CreateHitBoxes(AttackPatterns.attackPatterns[FaceSprite.sprite.name]);
+                else
+                    LevelManager.isPlayerTurn = false;
 
             _activeTime += Time.deltaTime;
         }
@@ -63,6 +68,8 @@ public class FaceInfo : MonoBehaviour
         foreach(GameObject attackBox in _attackHitboxes)
         {
             Destroy(attackBox);
+            LevelManager.isPlayerTurn = false;
+            Debug.Log("Finished attack");
         }
     }
 }
