@@ -17,6 +17,7 @@ public class FollowPlayer : MonoBehaviour
         Ranged = 4
     }
 
+    public int health;
     public EnemyBehaviour enemyBehaviour;
     public float hitboxSize = 1.4f;
     public float followDistance = 10;
@@ -39,24 +40,18 @@ public class FollowPlayer : MonoBehaviour
     // update is called once per frame
     void Update()
     {
+        if (health <= 0) {
+            Destroy(this);
+            levelManager.EnemiesOnLevel--;
+        }
         if (levelManager.isPlayerTurn || finishedTurn)
             return;
         Vector3 directionToPlayer = transform.position - player.transform.position;
 
         if(directionToPlayer.magnitude <= (int)attackType)
         {
-            switch (attackType)
-            {
-                case AttackType.Melee:
-
-                    break;
-                case AttackType.ExtendedMelee:
-                    break;
-                case AttackType.Ranged:
-                    break;
-                default:
-                    break;
-            }
+            player.GetComponent<PlayerHealth>().DamagePlayer(1);
+            return;
         }
         //float distanceToPlayer = Vector3.Distance(player.transform.position, transform.position);
         if (Physics.Raycast(transform.position, -directionToPlayer, out RaycastHit hit, followDistance, 3))

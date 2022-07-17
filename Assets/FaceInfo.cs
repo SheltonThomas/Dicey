@@ -71,6 +71,7 @@ public class FaceInfo : MonoBehaviour
         {
             Destroy(attackBox);
             LevelManager.isPlayerTurn = false;
+            transform.parent.gameObject.transform.GetComponent<PlayerMovement>().canMove = true;
         }
     }
 }

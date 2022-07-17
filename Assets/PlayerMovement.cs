@@ -14,13 +14,14 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField]
     private LevelManager levelManager;
     private PlayerHealth playerhealth;
+    public bool canMove = true;
 
     void Start(){
         playerhealth = GetComponent<PlayerHealth>();
     }
 
     void Update(){
-        if (!moving && levelManager.isPlayerTurn)
+        if (!moving && levelManager.isPlayerTurn && canMove)
         {
             if(Input.GetAxis("Horizontal") > 0){
                 if(CheckDirection(Vector3.right)){
@@ -39,7 +40,7 @@ public class PlayerMovement : MonoBehaviour
                 }
             }
             else if(Input.GetAxis("Vertical") > 0){
-                if(CheckDirection(Vector3.up)){
+                if(CheckDirection(Vector3.forward)){
                     moving = true;
                     destination = transform.position + Vector3.forward;
                     StopAllCoroutines();
@@ -47,7 +48,7 @@ public class PlayerMovement : MonoBehaviour
                 }
             }
             else if(Input.GetAxis("Vertical") < 0){
-                if(CheckDirection(Vector3.down)){
+                if(CheckDirection(Vector3.back)){
                     moving = true;
                     destination = transform.position + Vector3.back;
                     StopAllCoroutines();
@@ -58,6 +59,7 @@ public class PlayerMovement : MonoBehaviour
     }
 
     IEnumerator Rotate(Vector3 rotationAmount, string direction){
+        canMove = false;
         startingRotation = this.transform.rotation;
         Quaternion finalRotation = Quaternion.Euler( rotationAmount.x, rotationAmount.y, rotationAmount.z ) * startingRotation;
         Vector3 finalPosition = destination;
