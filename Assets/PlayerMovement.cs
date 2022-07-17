@@ -11,21 +11,19 @@ public class PlayerMovement : MonoBehaviour
     public float hitboxSize = 1.5f;
     private LayerMask blockMask = 0;
     private Vector3 destination;
-    //[SerializeField]
-    //private LevelManager levelManager;
 
     void Start(){
     }
 
     void Update(){
-        if (!moving/* && levelManager.isPlayerTurn*/)
+        if (!moving)
         {
             if(Input.GetAxis("Horizontal") > 0){
                 if(CheckDirection(Vector3.right)){
                     moving = true;
                     destination = transform.position + Vector3.right;
                     StopAllCoroutines();
-                    StartCoroutine(Rotate(new Vector3(0, 0, -90)));
+                    StartCoroutine(Rotate(new Vector3(0, -90, 0)));
                 }
             }
             else if(Input.GetAxis("Horizontal") < 0){
@@ -33,13 +31,13 @@ public class PlayerMovement : MonoBehaviour
                     moving = true;
                     destination = transform.position + Vector3.left;
                     StopAllCoroutines();
-                    StartCoroutine(Rotate(new Vector3(0, 0, 90)));
+                    StartCoroutine(Rotate(new Vector3(0, 90, 0)));
                 }
             }
             else if(Input.GetAxis("Vertical") > 0){
                 if(CheckDirection(Vector3.up)){
                     moving = true;
-                    destination = transform.position + Vector3.forward;
+                    destination = transform.position + Vector3.up;
                     StopAllCoroutines();
                     StartCoroutine(Rotate(new Vector3(90, 0, 0)));
                 }
@@ -47,7 +45,7 @@ public class PlayerMovement : MonoBehaviour
             else if(Input.GetAxis("Vertical") < 0){
                 if(CheckDirection(Vector3.down)){
                     moving = true;
-                    destination = transform.position + Vector3.back;
+                    destination = transform.position + Vector3.down;
                     StopAllCoroutines();
                     StartCoroutine(Rotate(new Vector3(-90, 0, 0)));
                 }
@@ -66,18 +64,13 @@ public class PlayerMovement : MonoBehaviour
             this.transform.position = Vector3.Lerp(this.transform.position, finalPosition, time * speed);
             yield return 0;
         }
-
-        if (Physics.Raycast(transform.position, Vector3.up, out RaycastHit hit, 3))
-        {
-            hit.collider.gameObject.GetComponent<FaceInfo>().isAttacking = true;
-        }
-
-        //levelManager.isPlayerTurn = false;
+        transform.position = new Vector3(Mathf.Round(transform.position.x), Mathf.Round(transform.position.y), Mathf.Round(transform.position.z));
+        transform.rotation = new Quaternion(Mathf.Round(transform.rotation.w), Mathf.Round(transform.rotation.x), Mathf.Round(transform.rotation.y), Mathf.Round(transform.rotation.z));
         moving = false;
     }
 
     private bool CheckDirection(Vector3 direction){
-        if (Physics.Raycast( transform.position, direction, out RaycastHit hit, hitboxSize, 3)) {
+        if (Physics.Raycast( transform.position, direction, out RaycastHit hit, hitboxSize)) {
             return false;
         }
         else return true;
