@@ -91,14 +91,14 @@ public class FollowPlayer : MonoBehaviour
             {
                 if(enemyBehaviour == EnemyBehaviour.moveAway)
                 {
-                    Vector3 move = new Vector3(0, 0, directionToPlayer.z / Mathf.Abs(directionToPlayer.z);
+                    Vector3 move = new Vector3(0, 0, directionToPlayer.z / Mathf.Abs(directionToPlayer.z));
                     if (CheckDirection(move))
                     {
                         destination = transform.position + move;
                     }
                 }else if (enemyBehaviour == EnemyBehaviour.moveTowards)
                 {
-                    Vector3 move = new Vector3(0, 0, -directionToPlayer.z / Mathf.Abs(directionToPlayer.z);
+                    Vector3 move = new Vector3(0, 0, -directionToPlayer.z / Mathf.Abs(directionToPlayer.z));
                     if (CheckDirection(move))
                     {
                         destination = transform.position + move;

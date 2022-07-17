@@ -23,6 +23,6 @@ public class PlayQuitScript : MonoBehaviour
     }
     public void PlayGame()
     {
-        SceneManager.LoadScene("Level1");
+        SceneManager.LoadScene("GamePlay");
     }
 }
