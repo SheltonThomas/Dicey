@@ -9,7 +9,7 @@ public class LevelManager : MonoBehaviour
     private List<FollowPlayer> aiControl = new List<FollowPlayer>();
 
     public bool isPlayerTurn = true;
-    private bool reset = false;
+    public bool gameOver = false;
 
     private void Start()
     {
@@ -27,7 +27,6 @@ public class LevelManager : MonoBehaviour
         {
             EnemiesFinishedMoving = 0;
             isPlayerTurn = true;
-            reset = false;
         }
             
 
@@ -35,6 +34,11 @@ public class LevelManager : MonoBehaviour
         {
             foreach (FollowPlayer ai in aiControl)
                 ai.finishedTurn = false;
+        }
+
+        if(EnemiesOnLevel == 0)
+        {
+            gameOver = true;
         }
             
     }
