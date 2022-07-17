@@ -18,6 +18,7 @@ public class FollowPlayer : MonoBehaviour
     }
 
     public EnemyBehaviour enemyBehaviour;
+    public float hitboxSize = 1.4f;
     public float followDistance = 10;
     public float speed = 10;
     private GameObject player;
@@ -72,38 +73,68 @@ public class FollowPlayer : MonoBehaviour
             {
                 if(enemyBehaviour == EnemyBehaviour.moveAway)
                 {
-                    destination = transform.position + new Vector3(directionToPlayer.x / Mathf.Abs(directionToPlayer.x), 0, 0);
-                }
-                else if (enemyBehaviour == EnemyBehaviour.moveTowards)
+                    Vector3 move = new Vector3(directionToPlayer.x / Mathf.Abs(directionToPlayer.x), 0, 0);
+                    if (CheckDirection(move))
+                    {
+                        destination = transform.position + move;
+                    }
+                }else if (enemyBehaviour == EnemyBehaviour.moveTowards)
                 {
-                    destination = transform.position + new Vector3(-directionToPlayer.x / Mathf.Abs(directionToPlayer.x), 0, 0);
+                    Vector3 move = new Vector3(-directionToPlayer.x/Mathf.Abs(directionToPlayer.x), 0, 0);
+                    if (CheckDirection(move))
+                    {
+                        destination = transform.position + move;
+                    }
                 }
             }
             else
             {
                 if(enemyBehaviour == EnemyBehaviour.moveAway)
                 {
-                    destination = transform.position + new Vector3(0, 0, directionToPlayer.z / Mathf.Abs(directionToPlayer.z));
-                }
-                else if (enemyBehaviour == EnemyBehaviour.moveTowards)
+                    Vector3 move = new Vector3(0, 0, directionToPlayer.z / Mathf.Abs(directionToPlayer.z);
+                    if (CheckDirection(move))
+                    {
+                        destination = transform.position + move;
+                    }
+                }else if (enemyBehaviour == EnemyBehaviour.moveTowards)
                 {
-                    destination = transform.position + new Vector3(0, 0, -directionToPlayer.z / Mathf.Abs(directionToPlayer.z));
+                    Vector3 move = new Vector3(0, 0, -directionToPlayer.z / Mathf.Abs(directionToPlayer.z);
+                    if (CheckDirection(move))
+                    {
+                        destination = transform.position + move;
+                    }
                 }
             }
         }else if(!moving && !seesPlayer)
         {
             switch (Random.Range(0, 3)){
                 case 0:
-                    destination = new Vector3(1,0,0) + transform.position;
+                    Vector3 move = new Vector3(1,0,0);
+                    if (CheckDirection(move))
+                    {
+                        destination = move + transform.position;
+                    }
                     break;
                 case 1:
-                    destination = new Vector3(-1,0,0) + transform.position;
+                    move = new Vector3(-1,0,0);
+                    if (CheckDirection(move))
+                    {
+                        destination = move + transform.position;
+                    }
                     break;
                 case 2:
-                    destination = new Vector3(0,0,-1) + transform.position;
+                    move = new Vector3(0,0,-1);
+                    if (CheckDirection(move))
+                    {
+                        destination = move + transform.position;
+                    }
                     break;
                 case 3:
-                    destination = new Vector3(0,0,1) + transform.position;
+                    move = new Vector3(0,0,1);
+                    if (CheckDirection(move))
+                    {
+                        destination = move + transform.position;
+                    }
                     break;
             }
             moving = true;
@@ -119,5 +150,11 @@ public class FollowPlayer : MonoBehaviour
                 levelManager.EnemiesFinishedMoving++;
             }
         }
+    }
+    private bool CheckDirection(Vector3 direction){
+        if (Physics.Raycast( transform.position, direction, out RaycastHit hit, hitboxSize)) {
+            return false;
+        }
+        else return true;
     }
 }
