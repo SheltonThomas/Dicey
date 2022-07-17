@@ -13,8 +13,10 @@ public class PlayerMovement : MonoBehaviour
     private Vector3 destination;
     [SerializeField]
     private LevelManager levelManager;
+    private PlayerHealth playerhealth;
 
     void Start(){
+        playerhealth = GetComponent<PlayerHealth>();
     }
 
     void Update(){
@@ -66,7 +68,7 @@ public class PlayerMovement : MonoBehaviour
             this.transform.position = Vector3.Lerp(this.transform.position, finalPosition, time * speed);
             yield return 0;
         }
-        transform.position = new Vector3(Mathf.Round(transform.position.x), Mathf.Round(transform.position.y), Mathf.Round(transform.position.z));
+        transform.position = new Vector3(Mathf.Round(transform.position.x),transform.position.y, Mathf.Round(transform.position.z));
         transform.rotation = new Quaternion(Mathf.Round(transform.rotation.x), Mathf.Round(transform.rotation.y), Mathf.Round(transform.rotation.z), Mathf.Round(transform.rotation.w));
 
         if (Physics.Raycast(transform.position, Vector3.up, out RaycastHit hit, 1))
@@ -74,6 +76,7 @@ public class PlayerMovement : MonoBehaviour
             FaceInfo face = hit.collider.gameObject.GetComponent<FaceInfo>();
             face.isAttacking = true;
             face.direction = direction;
+            face.PlayerHealth = playerhealth;
         }
         moving = false;
     }

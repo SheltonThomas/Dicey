@@ -14,6 +14,7 @@ public class FaceInfo : MonoBehaviour
     [SerializeField]
     private LevelManager LevelManager;
     public string direction;
+    public PlayerHealth PlayerHealth;
 
     private void Start()
     {
@@ -34,6 +35,7 @@ public class FaceInfo : MonoBehaviour
             if (_activeTime == 0)
                 if(FaceSprite.sprite != null)
                     CreateHitBoxes(AttackPatterns.attackPatterns[FaceSprite.sprite.name]);
+
                 else
                     LevelManager.isPlayerTurn = false;
 
@@ -69,7 +71,6 @@ public class FaceInfo : MonoBehaviour
         {
             Destroy(attackBox);
             LevelManager.isPlayerTurn = false;
-            Debug.Log("Finished attack");
         }
     }
 }
