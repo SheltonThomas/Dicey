@@ -617,6 +617,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyBehaviour: 1
+  hitboxSize: 1.4
   followDistance: 10
   speed: 10
 --- !u!54 &1297672787
