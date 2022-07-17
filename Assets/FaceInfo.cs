@@ -15,7 +15,6 @@ public class FaceInfo : MonoBehaviour
     private void Start()
     {
         //Need to rename attack patterns to match icon names
-        isAttacking = true;
     }
 
     private void Update()
@@ -55,7 +54,6 @@ public class FaceInfo : MonoBehaviour
                 }
             }
         }
-        Debug.Log("Created");
     }
 
     private void DestroyHitBoxes()
@@ -64,6 +62,5 @@ public class FaceInfo : MonoBehaviour
         {
             Destroy(attackBox);
         }
-        Debug.Log("Destroyed");
     }
 }
