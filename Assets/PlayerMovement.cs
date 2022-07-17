@@ -67,7 +67,9 @@ public class PlayerMovement : MonoBehaviour
             yield return 0;
         }
 
-        if (Physics.Raycast(transform.position, Vector3.up, out RaycastHit hit, 3))
+        Debug.DrawRay(transform.position, Vector3.up, Color.red, 5);
+        Debug.Log(Physics.Raycast(transform.position, Vector3.up, 1));
+        if (Physics.Raycast(transform.position, Vector3.up, out RaycastHit hit, 1))
         {
             hit.collider.gameObject.GetComponent<FaceInfo>().isAttacking = true;
         }

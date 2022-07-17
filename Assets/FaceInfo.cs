@@ -29,7 +29,8 @@ public class FaceInfo : MonoBehaviour
                 return;
             }
             if (_activeTime == 0)
-                CreateHitBoxes(AttackPatterns.attackPatterns[FaceSprite.sprite.name]);
+                if(FaceSprite.sprite != null)
+                    CreateHitBoxes(AttackPatterns.attackPatterns[FaceSprite.sprite.name]);
 
             _activeTime += Time.deltaTime;
         }
