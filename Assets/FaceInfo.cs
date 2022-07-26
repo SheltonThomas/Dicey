@@ -8,39 +8,45 @@ public class FaceInfo : MonoBehaviour
     private SpriteRenderer FaceSprite;
     [SerializeField]
     private float _attackDuration = 0;
-    private float _activeTime = 0;
     private List<GameObject> _attackHitboxes = new List<GameObject>();
-    public bool isAttacking = false;
     [SerializeField]
-    private LevelManager LevelManager;
+    private GameManager _gameManager;
+    private LoadVariablesScriptableObject _loadVariables;
     public string direction;
     public PlayerHealth PlayerHealth;
+    public bool FinishedAttacking { get; private set; } = true;
 
     private void Start()
     {
-        //Need to rename attack patterns to match icon names
+        _loadVariables = _gameManager.GameVariables;
     }
 
     private void Update()
     {
-        if (isAttacking)
+        
+    }
+
+    public IEnumerator UseAbility()
+    {
+        FinishedAttacking = false; 
+        if(FaceSprite.sprite == null)
+            yield return 0;
+
+        else if(_loadVariables.GetAbilityType(FaceSprite.sprite.name) == AbilityType.Attack)
         {
-            if(_activeTime >= _attackDuration)
+            float _activeTime = 0;
+            while (_activeTime < _attackDuration)
             {
-                isAttacking = false;
-                DestroyHitBoxes();
-                _activeTime = 0;
-                return;
+                if (_activeTime == 0)
+                    if (FaceSprite.sprite != null)
+                        CreateHitBoxes(_loadVariables.GetAbilityPattern(FaceSprite.sprite.name));
+
+                _activeTime += Time.deltaTime;
+                yield return 0;
             }
-            if (_activeTime == 0)
-                if(FaceSprite.sprite != null)
-                    CreateHitBoxes(AttackPatterns.attackPatterns[FaceSprite.sprite.name]);
-
-                else
-                    LevelManager.isPlayerTurn = false;
-
-            _activeTime += Time.deltaTime;
+            DestroyHitBoxes();
         }
+        FinishedAttacking = true;
     }
 
     private void CreateHitBoxes(Texture2D attack)
@@ -70,7 +76,6 @@ public class FaceInfo : MonoBehaviour
         foreach(GameObject attackBox in _attackHitboxes)
         {
             Destroy(attackBox);
-            LevelManager.isPlayerTurn = false;
             transform.parent.gameObject.transform.GetComponent<PlayerMovement>().canMove = true;
         }
     }

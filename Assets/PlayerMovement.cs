@@ -12,47 +12,53 @@ public class PlayerMovement : MonoBehaviour
     private LayerMask blockMask = 0;
     private Vector3 destination;
     [SerializeField]
-    private LevelManager levelManager;
+    private LoadVariablesScriptableObject GameVariables;
     private PlayerHealth playerhealth;
     public bool canMove = true;
+    private FaceInfo _attackFace;
+    private IEnumerator rotate;
 
     void Start(){
         playerhealth = GetComponent<PlayerHealth>();
     }
 
     void Update(){
-        if (!moving && levelManager.isPlayerTurn && canMove)
+        if (!moving /*&& canMove*/)
         {
-            if(Input.GetAxis("Horizontal") > 0){
+            if(rotate != null)
+                StopCoroutine(rotate);
+            if (_attackFace != null)
+                StopCoroutine(_attackFace.UseAbility());
+            if (Input.GetAxis("Horizontal") > 0){
                 if(CheckDirection(Vector3.right)){
                     moving = true;
                     destination = transform.position + Vector3.right;
-                    StopAllCoroutines();
-                    StartCoroutine(Rotate(new Vector3(0, 0, -90), "Right"));
+                    rotate = Rotate(new Vector3(0, 0, -90), "Right");
+                    StartCoroutine(rotate);
                 }
             }
             else if(Input.GetAxis("Horizontal") < 0){
                 if(CheckDirection(Vector3.left)){
                     moving = true;
-                    destination = transform.position + Vector3.left;
-                    StopAllCoroutines();
-                    StartCoroutine(Rotate(new Vector3(0, 0, 90), "Left"));
+                    destination = transform.position + Vector3.left; 
+                    rotate = Rotate(new Vector3(0, 0, 90), "Right");
+                    StartCoroutine(rotate);
                 }
             }
             else if(Input.GetAxis("Vertical") > 0){
                 if(CheckDirection(Vector3.forward)){
                     moving = true;
                     destination = transform.position + Vector3.forward;
-                    StopAllCoroutines();
-                    StartCoroutine(Rotate(new Vector3(90, 0, 0), "Forward"));
+                    rotate = Rotate(new Vector3(90, 0, 0), "Forward");
+                    StartCoroutine(rotate);
                 }
             }
             else if(Input.GetAxis("Vertical") < 0){
                 if(CheckDirection(Vector3.back)){
                     moving = true;
                     destination = transform.position + Vector3.back;
-                    StopAllCoroutines();
-                    StartCoroutine(Rotate(new Vector3(-90, 0, 0), "Back"));
+                    rotate = Rotate(new Vector3(-90, 0, 0), "Back");
+                    StartCoroutine(rotate);
                 }
             }
         }
@@ -64,7 +70,8 @@ public class PlayerMovement : MonoBehaviour
         Quaternion finalRotation = Quaternion.Euler( rotationAmount.x, rotationAmount.y, rotationAmount.z ) * startingRotation;
         Vector3 finalPosition = destination;
 
-        while(this.transform.rotation != finalRotation){
+        while(this.transform.rotation != finalRotation)
+        {
             float time = Time.deltaTime;
             this.transform.rotation = Quaternion.Lerp(this.transform.rotation, finalRotation, time * rotationSpeed);
             this.transform.position = Vector3.Lerp(this.transform.position, finalPosition, time * speed);
@@ -75,12 +82,15 @@ public class PlayerMovement : MonoBehaviour
 
         if (Physics.Raycast(transform.position, Vector3.up, out RaycastHit hit, 1))
         {
-            FaceInfo face = hit.collider.gameObject.GetComponent<FaceInfo>();
-            face.isAttacking = true;
-            face.direction = direction;
-            face.PlayerHealth = playerhealth;
+            _attackFace = hit.collider.gameObject.GetComponent<FaceInfo>();
+            _attackFace.direction = direction;
+            _attackFace.PlayerHealth = playerhealth;
         }
         moving = false;
+        if(_attackFace)
+            StartCoroutine(_attackFace.UseAbility());
+        if (_attackFace.FinishedAttacking)
+            canMove = true;
     }
 
     private bool CheckDirection(Vector3 direction){

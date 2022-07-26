@@ -27,7 +27,7 @@ public class FollowPlayer : MonoBehaviour
     private bool moving = false;
     private Vector3 destination;
     [SerializeField]
-    private LevelManager levelManager;
+    private LoadVariablesScriptableObject GameVariables;
     public bool finishedTurn = true;
     public AttackType attackType;
 
@@ -42,9 +42,8 @@ public class FollowPlayer : MonoBehaviour
     {
         if (health <= 0) {
             Destroy(this);
-            levelManager.EnemiesOnLevel--;
         }
-        if (levelManager.isPlayerTurn || finishedTurn)
+        if (finishedTurn)
             return;
         Vector3 directionToPlayer = transform.position - player.transform.position;
 
@@ -142,7 +141,6 @@ public class FollowPlayer : MonoBehaviour
                 transform.position = new Vector3(Mathf.Round(transform.position.x), Mathf.Round(transform.position.y), Mathf.Round(transform.position.z));
                 moving = false;
                 finishedTurn = true;
-                levelManager.EnemiesFinishedMoving++;
             }
         }
     }
